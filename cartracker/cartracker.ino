@@ -66,6 +66,10 @@ void setup()
 
 }
 
+void initializeBluetooth() {
+    
+}
+
 void initializeGSM() {
 
     // Set modem baud

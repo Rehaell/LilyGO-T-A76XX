@@ -66,6 +66,17 @@ void setup()
 
 }
 
+void loop() {
+    // Wait one hour before sending the coordinates again
+    delay(3600000);
+    String gps_raw = getGPSCoordinates();
+    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
+        Serial.println("SMS sent successfully");    
+    } else {
+        Serial.println("SMS failed to send");
+    }
+}
+
 void initializeBluetooth() {
     
 }
@@ -245,15 +256,4 @@ uint16_t readBatteryLevel() {
     //TODO return either battery or solar voltage
     return battery_voltage;
 
-}
-
-void loop() {
-    // Wait one hour before sending the coordinates again
-    delay(3600000);
-    String gps_raw = getGPSCoordinates();
-    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
-        Serial.println("SMS sent successfully");    
-    } else {
-        Serial.println("SMS failed to send");
-    }
 }

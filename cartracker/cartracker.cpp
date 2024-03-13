@@ -34,49 +34,6 @@
 // Define the serial console buffer for debug prints, if needed
 char buf[256];
 
-void setup()
-{
-    Serial.begin(115200);
-    // Turn on DC boost to power on the modem
-    #ifdef BOARD_POWERON_PIN
-        pinMode(BOARD_POWERON_PIN, OUTPUT);
-        digitalWrite(BOARD_POWERON_PIN, HIGH);
-    #endif
-
-    // Set modem reset pin ,reset modem
-    pinMode(MODEM_RESET_PIN, OUTPUT);
-    digitalWrite(MODEM_RESET_PIN, !MODEM_RESET_LEVEL); delay(100);
-    digitalWrite(MODEM_RESET_PIN, MODEM_RESET_LEVEL); delay(2600);
-    digitalWrite(MODEM_RESET_PIN, !MODEM_RESET_LEVEL);
-
-    // Set ring pin input
-    pinMode(MODEM_RING_PIN, INPUT_PULLUP);
-
-    initializeGSM();
-    initializeGPS();
-
-    String gps_raw = getGPSCoordinates();
-
-    //Send text with GPS coordinates to SMS_TARGET
-    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
-        Serial.println("SMS sent successfully");    
-    } else {
-        Serial.println("SMS failed to send");
-    }
-
-}
-
-void loop() {
-    // Wait one hour before sending the coordinates again
-    delay(3600000);
-    String gps_raw = getGPSCoordinates();
-    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
-        Serial.println("SMS sent successfully");    
-    } else {
-        Serial.println("SMS failed to send");
-    }
-}
-
 void initializeBluetooth() {
     
 }
@@ -257,3 +214,48 @@ uint16_t readBatteryLevel() {
     return battery_voltage;
 
 }
+
+
+void setup()
+{
+    Serial.begin(115200);
+    // Turn on DC boost to power on the modem
+    #ifdef BOARD_POWERON_PIN
+        pinMode(BOARD_POWERON_PIN, OUTPUT);
+        digitalWrite(BOARD_POWERON_PIN, HIGH);
+    #endif
+
+    // Set modem reset pin ,reset modem
+    pinMode(MODEM_RESET_PIN, OUTPUT);
+    digitalWrite(MODEM_RESET_PIN, !MODEM_RESET_LEVEL); delay(100);
+    digitalWrite(MODEM_RESET_PIN, MODEM_RESET_LEVEL); delay(2600);
+    digitalWrite(MODEM_RESET_PIN, !MODEM_RESET_LEVEL);
+
+    // Set ring pin input
+    pinMode(MODEM_RING_PIN, INPUT_PULLUP);
+
+    initializeGSM();
+    initializeGPS();
+
+    String gps_raw = getGPSCoordinates();
+
+    //Send text with GPS coordinates to SMS_TARGET
+    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
+        Serial.println("SMS sent successfully");    
+    } else {
+        Serial.println("SMS failed to send");
+    }
+
+}
+
+void loop() {
+    // Wait one hour before sending the coordinates again
+    delay(3600000);
+    String gps_raw = getGPSCoordinates();
+    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
+        Serial.println("SMS sent successfully");    
+    } else {
+        Serial.println("SMS failed to send");
+    }
+}
+

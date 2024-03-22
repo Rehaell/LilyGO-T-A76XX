@@ -234,28 +234,33 @@ void setup()
     // Set ring pin input
     pinMode(MODEM_RING_PIN, INPUT_PULLUP);
 
-    initializeGSM();
+    //initializeGSM();
+    Serial.println("GSM initializing...");
     initializeGPS();
 
     String gps_raw = getGPSCoordinates();
 
     //Send text with GPS coordinates to SMS_TARGET
-    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
-        Serial.println("SMS sent successfully");    
-    } else {
-        Serial.println("SMS failed to send");
-    }
+    //if (modem.sendSMS(SMS_TARGET, gps_raw)) {
+    //    Serial.println("SMS sent successfully");    
+    //} else {
+    //    Serial.println("SMS failed to send");
+    //}
 
 }
 
 void loop() {
-    // Wait one hour before sending the coordinates again
-    delay(3600000);
+    // Wait 5 seconds before getting the coordinates again
+    delay(5000);
     String gps_raw = getGPSCoordinates();
-    if (modem.sendSMS(SMS_TARGET, gps_raw)) {
-        Serial.println("SMS sent successfully");    
-    } else {
-        Serial.println("SMS failed to send");
-    }
+
+    //print gps coordinates on the serial monitor
+    Serial.println(gps_raw);
+
+    //if (modem.sendSMS(SMS_TARGET, gps_raw)) {
+    //    Serial.println("SMS sent successfully");    
+    //} else {
+    //    Serial.println("SMS failed to send");
+    //}
 }
 

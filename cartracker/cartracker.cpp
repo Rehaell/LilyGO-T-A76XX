@@ -235,10 +235,8 @@ void setup()
     pinMode(MODEM_RING_PIN, INPUT_PULLUP);
 
     //initializeGSM();
-    Serial.println("GSM initializing...");
     initializeGPS();
 
-    String gps_raw = getGPSCoordinates();
 
     //Send text with GPS coordinates to SMS_TARGET
     //if (modem.sendSMS(SMS_TARGET, gps_raw)) {

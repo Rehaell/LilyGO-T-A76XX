@@ -255,6 +255,13 @@ void loop() {
     //print gps coordinates on the serial monitor
     Serial.println(gps_raw);
 
+    if (SerialAT.available()) {
+        Serial.write(SerialAT.read());
+    }
+    if (Serial.available()) {
+        SerialAT.write(Serial.read());
+    }
+
     //if (modem.sendSMS(SMS_TARGET, gps_raw)) {
     //    Serial.println("SMS sent successfully");    
     //} else {
